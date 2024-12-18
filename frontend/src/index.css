@@ -1,9 +1,24 @@
-*, *:after, *:before{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*:after,
+*:before {
   box-sizing: content-box;
 }
 
-body{
+body {
   margin: 0;
-  background-color: #010101;
-  color: #FEFEFE;
+  padding: 16px;
+  background-color: #171717;
+  color: #cfcfcf;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
 }
