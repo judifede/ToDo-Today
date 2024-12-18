@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "ToDo Today",
+  "version": "1.0",
+  "description": "Organiza tus tareas diarias.",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "background": {
+    "service_worker": "scripts/service-worker.js"
+  },
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "permissions": ["sidePanel"]
+}

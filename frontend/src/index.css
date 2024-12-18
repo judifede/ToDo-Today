@@ -1,0 +1,9 @@
+*, *:after, *:before{
+  box-sizing: content-box;
+}
+
+body{
+  margin: 0;
+  background-color: #010101;
+  color: #FEFEFE;
+}
