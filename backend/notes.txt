@@ -1,0 +1,27 @@
+.\venv\Scripts\activate.bat
+    Encender entorno virtual "virtualenv"
+
+
+mongod.exe --version
+    Version mongodb
+
+
+-------------------------------------------------
+Carpeta data. C:\data\db
+
+mongod
+
+mongosh
+-------------------------------------------------
+
+python src/app.py
+    Python ejecuta en el puerto 5000
+
+
+from werkzeug.security import generate_password_hash, check_password_hash
+-------------------------------------------------
+mongosh
+
+db.todotoday.find().pretty()
+
+-------------------------------------------------

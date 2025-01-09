@@ -58,10 +58,31 @@ function App() {
     debouncedHandleSearch(event)
   }
 
+  const openPopup = () => {
+    // chrome.sidePanel.close()
+    chrome.action.openPopup()
+  }
+
+  const openSidePanel = () => {
+    // chrome.action.closePopup()
+    chrome.sidePanel.open()
+  }
+
   return (
     <>
       <h1 className="m-0 text-2xl font-semibold">ToDo Today</h1>
       <h2 className="text-lg">Organiza tus tareas diarias</h2>
+
+      <button type="button" id="openPopupButton" onClick={() => openPopup()}>
+        Abrir Popup
+      </button>
+      <button
+        type="button"
+        id="openSidePanelButton"
+        onClick={() => openSidePanel()}
+      >
+        Abrir SidePanel
+      </button>
 
       <header className="w-80">
         <form
