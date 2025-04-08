@@ -4,12 +4,28 @@ import path from 'path'
 
 // eslint-disable-next-line no-undef
 const projectRoot = __dirname
-const parentDir = path.resolve(projectRoot, '..')
+const finalDir = path.resolve(projectRoot, '../bundle final')
+
+// Compila el proyecto en la carpeta padre
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'ignore-pem',
+      transform(code, id) {
+        if (id.endsWith('.pem')) {
+          // Retorna un módulo vacío para los archivos .pem
+          return {
+            code: '',
+            map: null,
+          }
+        }
+      },
+    },
+  ],
   build: {
-    outDir: parentDir,
+    outDir: finalDir,
     emptyOutDir: false,
     rollupOptions: {
       output: {
