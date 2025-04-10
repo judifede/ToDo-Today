@@ -12,7 +12,7 @@ Extensión de Chrome para gestionar una lista de tareas
 
 1. Instalar dependencias: 
 ```
-pip install Flask Flask-PyMongo pymongo bson flask-cors
+pip install Flask Flask-PyMongo pymongo bson flask-cors python-dotenv PyJWT Flask-Login
 
 ```
 Para revisar que todo ha ido bien usar:
