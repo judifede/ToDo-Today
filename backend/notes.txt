@@ -1,13 +1,13 @@
+cd backend
+
+
 .\venv\Scripts\activate.bat
     Encender entorno virtual "virtualenv"
-
 
 mongod.exe --version
     Version mongodb
 
-
--------------------------------------------------
-Carpeta data. C:\data\db
+mongod --dbpath C:\data\db
 
 mongod
 

@@ -6,7 +6,7 @@ import path from 'path'
 const projectRoot = __dirname
 const finalDir = path.resolve(projectRoot, '../bundle final')
 
-// Compila el proyecto en la carpeta padre
+// Compila el proyecto en la carpeta bundle final
 
 export default defineConfig({
   plugins: [

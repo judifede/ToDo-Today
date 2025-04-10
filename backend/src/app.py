@@ -1,8 +1,12 @@
-from flask import Flask, request, jsonify, Response # type: ignore
-from flask_pymongo import PyMongo # type: ignore
-from bson import json_util # type: ignore
-from bson.objectid import ObjectId # type: ignore
+from flask import Flask, request, jsonify, Response
+from flask_pymongo import PyMongo
+from bson import json_util
+from bson.objectid import ObjectId
+from flask_cors import CORS 
+
 app = Flask(__name__)
+CORS(app)  # Esto habilita CORS para todas las rutas
+# CORS(app, resources={r"/api/*": {"origins": "http://example.com"}})
 app.config["MONGO_URI"] = "mongodb://localhost:27017/todotoday"
 mongo = PyMongo(app)
 
@@ -40,13 +44,6 @@ def get_todos():
 
     return response, 200
 
-@app.route('/todos/<id>', methods=['GET'])
-def get_todo_by_id(id):
-    todo = mongo.db.todotoday.find_one({'_id': ObjectId(id)})
-     
-    json_todo = json_util.dumps(todo) # Convertimos los objetos Mongo a String
-    response = Response(json_todo, mimetype='application/json')
-    return response, 200
 
 @app.route('/todos/<id>', methods=['PUT'])
 def update_user(id):

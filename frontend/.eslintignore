@@ -1,0 +1,6 @@
+/frontend/node_modules/tailwind/test/shared/keys/privateKey.pem
+/frontend/node_modules/limes/test/shared/keys/auth.thenativeweb.io/privateKey.pem
+/frontend/node_modules/limes/test/shared/keys/auth.intuity.de/privateKey.pem
+/frontend/node_modules/limes/test/shared/keys/auth.example.com/privateKey.pem
+/frontend/node_modules/crypto2/test/units/privateKey.pem
+/frontend/node_modules/crypto2/test/units/publicKey.pem

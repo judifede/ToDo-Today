@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+# Ignorar todos los archivos de claves privadas en las rutas especificadas
+/frontend/node_modules/tailwind/test/shared/keys/privateKey.pem
+/frontend/node_modules/limes/test/shared/keys/auth.thenativeweb.io/privateKey.pem
+/frontend/node_modules/limes/test/shared/keys/auth.intuity.de/privateKey.pem
+/frontend/node_modules/limes/test/shared/keys/auth.example.com/privateKey.pem
+/frontend/node_modules/crypto2/test/units/privateKey.pem
+/frontend/node_modules/crypto2/test/units/publicKey.pem
+
+# Opcional: Ignorar todos los archivos .pem en la carpeta node_modules
+/frontend/node_modules/**/*.pem
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

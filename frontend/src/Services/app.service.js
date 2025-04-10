@@ -1,8 +1,8 @@
 import api from './config'
 
-export const getData = async () => {
+export const getTodos = async () => {
   try {
-    const { data } = await api.get('/data', {
+    const { data } = await api.get('/todos', {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -11,13 +11,12 @@ export const getData = async () => {
     return data
   } catch (err) {
     console.error(err)
-    
   }
 }
 
-export const putData = async (lastID, bodyObj) => {
+export const createTodo = async ({ bodyObj }) => {
   try {
-    const { data } = await api.put(`/data/${lastID}`, bodyObj, {
+    const { data } = await api.post(`/todos`, bodyObj, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -26,13 +25,12 @@ export const putData = async (lastID, bodyObj) => {
     return data
   } catch (err) {
     console.error(err)
-    
   }
 }
 
-export const deleteData = async (lastID) => {
+export const updateTodo = async ({ chosenID, bodyObj }) => {
   try {
-    const { data } = await api.delete(`/data/${lastID}`, {
+    const { data } = await api.put(`/todos/${chosenID}`, bodyObj, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -41,6 +39,19 @@ export const deleteData = async (lastID) => {
     return data
   } catch (err) {
     console.error(err)
-    
+  }
+}
+
+export const deleteTodo = async ({ chosenID }) => {
+  try {
+    const { data } = await api.delete(`/todos/${chosenID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    return data
+  } catch (err) {
+    console.error(err)
   }
 }
