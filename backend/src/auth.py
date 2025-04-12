@@ -1,60 +1,11 @@
 from flask import Blueprint, request, jsonify
-
 import jwt
 import datetime
-
 from dotenv import load_dotenv
 import os
-
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from config import create_app
 
-from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
-"""
-
-# Cargar variables de entorno desde el archivo .env
-load_dotenv()
-
-app, mongo = create_app()
-login_manager = LoginManager()
-login_manager.init_app(app)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-auth = Blueprint('auth', __name__)
-
-
-class User(UserMixin):
-    pass
-
-
-@login_manager.user_loader
-def user_loader(username):
-    user = User()
-    user.id = username
-    return user
-
-@auth.route('/login', methods=['GET', 'POST'])
-def login_page():
-    if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
-        # Authenticate user credentials here
-        user = User()
-        user.id = username
-        login_user(user)
-        return "A"
-    return "B"
-
-@auth.route('/logout')
-def logout_page():
-    if current_user.is_active:
-        logout_user()
-        return 'Logged out'
-    else:
-        return "you aren't login"
-
-"""
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
@@ -75,6 +26,11 @@ def register():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+
+    # Verificar el número de registros en la tabla users
+    user_count = mongo.db.users.count_documents({})
+    if user_count >= 20:
+        return jsonify({'error': 'Se ha alcanzado el límite de usuarios en la aplicación.'}), 403
 
     if not username or not password:
         return jsonify({"error": "Falta aportar alguna credencial"}), 400

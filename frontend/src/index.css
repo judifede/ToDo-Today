@@ -10,9 +10,10 @@
 
 body {
   margin: 0;
-  padding: 16px;
+  padding: 30px 15px;
   background-color: #171717;
   color: #cfcfcf;
+  min-width: 350px;
 }
 
 #root {

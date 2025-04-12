@@ -34,6 +34,13 @@ def create_todo(current_user):
 
     if tarea is None:
         return tarea_not_found()
+    
+    # Verificar el número de registros en la tabla todos para el usuario actual
+    user_todos_count = mongo.db.todos.count_documents({'user_id': current_user})
+
+    if user_todos_count >= 20:
+        return jsonify({'error': 'Se ha alcanzado el límite de tareas para este usuario.'}), 403
+
 
     if tarea:
         id = mongo.db.todos.insert_one({
@@ -98,14 +105,6 @@ def delete_user(current_user, id):
     return "Tarea eliminada", 200
 
 # Error handlers
-@todos.errorhandler(404)
-def not_found(error=None):
-    message = {
-        'message': 'Recurso no encontrado: ' + request.url,
-        'status': 404
-    }
-    return jsonify(message), 404
-
 @todos.errorhandler(406)
 def tarea_not_found(error=None):
     message = {

@@ -5,13 +5,14 @@ import { login, register } from '../Services/auth.service'
 function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
 
   const onLogin = async () => {
     try {
-      const res = await login({ username, password })
+      const login_result = await login({ username, password })
 
-      onLocalStorage(res)
+      onLocalStorage(login_result)
     } catch (err) {
       console.error(err)
     }
@@ -31,7 +32,13 @@ function Login() {
   }
 
   const onLocalStorage = async (res) => {
+    if (res.error) {
+      setErrorMessage(res.error)
+      return
+    }
+
     localStorage.setItem('token', res.token)
+    window.location.reload()
   }
 
   return (
@@ -50,7 +57,7 @@ function Login() {
           }}
           id="username"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Usuario: admin"
+          placeholder="Usuario"
           required
         />
       </div>
@@ -68,32 +75,32 @@ function Login() {
             setPassword(e.target.value)
           }}
           id="password"
-          placeholder="Contraseña: admin"
+          placeholder="Contraseña"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           required
         />
         {isPassVisible ? (
           <EyeSlashIcon
-            className="absolute cursor-pointer top-1/2 fill-black left-44 size-5"
+            className="absolute cursor-pointer top-10 right-2 fill-black size-5"
             onClick={() => {
               setIsPassVisible((oldState) => !oldState)
             }}
           ></EyeSlashIcon>
         ) : (
           <EyeIcon
-            className="absolute cursor-pointer top-1/2 fill-black left-44 size-5"
+            className="absolute cursor-pointer top-10 right-2 fill-black size-5"
             onClick={() => {
               setIsPassVisible((oldState) => !oldState)
             }}
           ></EyeIcon>
         )}
-        <EyeIcon
-          className="absolute cursor-pointer top-1/2 text-red left-44 size-5"
-          onClick={() => {
-            setIsPassVisible((oldState) => !oldState)
-          }}
-        ></EyeIcon>
       </div>
+
+      {errorMessage && (
+        <div className="flex items-center justify-between w-full px-4 py-2 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+          <span className="font-medium text-center">{errorMessage}</span>
+        </div>
+      )}
 
       <button
         type="button"

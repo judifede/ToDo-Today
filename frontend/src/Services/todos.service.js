@@ -12,8 +12,7 @@ export const getTodos = async () => {
     return data
   } catch (err) {
     if (err.message === 'Network Error') {
-      console.error("No ha sido posible conectarse al servidor")
-      return
+      return { error: "No ha sido posible conectarse al servidor" }
     }
     console.error(err)
   }
@@ -28,12 +27,12 @@ export const createTodo = async ({ bodyObj }) => {
       },
     })
 
-    console.log(data);
-    
+
 
     return data
   } catch (err) {
-    console.error(err)
+    return { error: err.response.data.error }
+
   }
 }
 

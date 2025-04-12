@@ -1,14 +1,26 @@
 import { auth } from './config'
 
 export const login = async (loginData) => {
-  const { data } = await auth.post('/login', loginData)
-  console.log(data);
-  
-  return data
+  try {
+    const { data } = await auth.post('/login', loginData)
+
+    return data
+  } catch (err) {
+
+    return { error: err.response.data.error }
+
+  }
 }
 
 export const register = async (userData) => {
-  const { data } = await auth.post('/register', userData)
-  return data
+  try {
+    const { data } = await auth.post('/register', userData)
+
+    return data
+  } catch (err) {
+
+    return { error: err.response.data.error }
+
+  }
 }
 
