@@ -4,9 +4,10 @@
   "version": "2.0",
   "description": "Organiza tus tareas diarias.",
   "icons": {
-    "16": "images/icon16.png",
-    "48": "images/icon48.png",
-    "128": "images/icon128.png"
+    "16": "images/logo.png",
+    "48": "images/logo.png",
+    "64": "images/logo.png",
+    "128": "images/logo.png"
   },
   "action": {
     "default_title": "ToDo Today"
