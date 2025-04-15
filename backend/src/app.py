@@ -1,6 +1,6 @@
-from config import create_app
-from auth import auth
-from todos import todos
+from src.config import create_app
+from src.auth import auth
+from src.todos import todos
 from flask_cors import CORS
 
 app, mongo = create_app()

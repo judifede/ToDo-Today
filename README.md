@@ -38,3 +38,5 @@ Hosting Remoto (Render):
 gunicorn --bind 0.0.0.0:$PORT wsgi:app
 ```
 
+docker build -t todotoday-backend .
+docker run -p 5000:5000 todotoday-backend

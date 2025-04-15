@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 import jwt
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from config import create_app
+from src.config import create_app
 
 app, mongo = create_app()
 auth = Blueprint('auth', __name__)

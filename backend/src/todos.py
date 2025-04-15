@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, Response
 from bson import json_util, ObjectId
-from config import create_app
+from src.config import create_app
 import jwt
 from functools import wraps
 
