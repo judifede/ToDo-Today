@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify
 import jwt
 import datetime
-from dotenv import load_dotenv
-import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import create_app
 

@@ -1,10 +1,8 @@
-import os
 from flask import Blueprint, request, jsonify, Response
 from bson import json_util, ObjectId
 from config import create_app
 import jwt
 from functools import wraps
-from dotenv import load_dotenv
 
 app, mongo = create_app()
 todos = Blueprint('todos', __name__)
