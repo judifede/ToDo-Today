@@ -1,14 +1,18 @@
 import axios from 'axios'
 
-const BASE_URL_API = "http://localhost:5000/api"
-const BASE_URL_AUTH = "http://localhost:5000/auth"
+const isDevelopment = import.meta.env.VITE_ENV  === 'development'
+
+const BASE_URL_API_DEV = "http://localhost:5000/api"
+const BASE_URL_API_PROD = "https://todo-today-api.onrender.com/api" 
+const BASE_URL_AUTH_DEV = "http://localhost:5000/auth"
+const BASE_URL_AUTH_PROD = "https://todo-today-api.onrender.com/auth"
 
 const api = axios.create({
-  baseURL: BASE_URL_API
+  baseURL: isDevelopment ? BASE_URL_API_DEV : BASE_URL_API_PROD
 })
 
 const auth = axios.create({
-  baseURL: BASE_URL_AUTH
+  baseURL: isDevelopment ? BASE_URL_AUTH_DEV : BASE_URL_AUTH_PROD
 })
 
-export {api, auth}
+export { api, auth }
