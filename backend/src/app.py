@@ -1,9 +1,10 @@
 from config import create_app
 from auth import auth
 from todos import todos
+from flask_cors import CORS
 
 app, mongo = create_app()
-
+CORS(app)  # Habilita CORS para todas las rutas
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(todos, url_prefix='/api')
 
