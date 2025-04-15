@@ -6,11 +6,7 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import create_app
 
-# Cargar variables de entorno desde el archivo .env
-load_dotenv()
-
 app, mongo = create_app()
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 auth = Blueprint('auth', __name__)
 
 def generate_token(user_id):
@@ -27,16 +23,22 @@ def register():
     username = data.get('username')
     password = data.get('password')
 
-    # Verificar el número de registros en la tabla users
-    user_count = mongo.db.users.count_documents({})
+    # Verificar el número de registros en la tabla users.
+    user_count = mongo.users.count_documents({})
     if user_count >= 20:
         return jsonify({'error': 'Se ha alcanzado el límite de usuarios en la aplicación.'}), 403
 
+    # Verificar si han llegado tanto el usuario como la contraseña.
     if not username or not password:
         return jsonify({"error": "Falta aportar alguna credencial"}), 400
+    
+    # Verificar si el nombre de usuario ya existe
+    existing_user = mongo.users.find_one({'username': username})
+    if existing_user:
+        return jsonify({'error': 'El nombre de usuario ya está en uso.'}), 400
 
     hashed_password = generate_password_hash(password)
-    result = mongo.db.users.insert_one({'username': username, 'password': hashed_password})
+    result = mongo.users.insert_one({'username': username, 'password': hashed_password})
     token = generate_token(str(result.inserted_id))
 
     return jsonify({"token": token, "message": "Usuario registrado con éxito"}), 201
@@ -47,7 +49,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    user = mongo.db.users.find_one({'username': username})
+    user = mongo.users.find_one({'username': username})
 
     print(user)
 

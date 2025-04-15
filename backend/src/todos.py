@@ -9,10 +9,6 @@ from dotenv import load_dotenv
 app, mongo = create_app()
 todos = Blueprint('todos', __name__)
 
-# Cargar variables de entorno desde el archivo .env
-load_dotenv()
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -36,14 +32,14 @@ def create_todo(current_user):
         return tarea_not_found()
     
     # Verificar el número de registros en la tabla todos para el usuario actual
-    user_todos_count = mongo.db.todos.count_documents({'user_id': current_user})
+    user_todos_count = mongo.todos.count_documents({'user_id': current_user})
 
     if user_todos_count >= 20:
         return jsonify({'error': 'Se ha alcanzado el límite de tareas para este usuario.'}), 403
 
 
     if tarea:
-        id = mongo.db.todos.insert_one({
+        id = mongo.todos.insert_one({
             'tarea': tarea,
             'marcada': False,
             'user_id': current_user
@@ -59,7 +55,7 @@ def create_todo(current_user):
 @todos.route('/todos', methods=['GET'])
 @token_required
 def get_todos(current_user):
-    todos = list(mongo.db.todos.find({'user_id': current_user}))
+    todos = list(mongo.todos.find({'user_id': current_user}))
     
     # Listar las tareas por consola
     tareas = []
@@ -82,12 +78,12 @@ def update_user(current_user, id):
     marcada = request.json.get('marcada', None)
 
     if marcada is None:
-        marcada = mongo.db.todos.find_one({'_id': ObjectId(id)}).get('marcada', None)
+        marcada = mongo.todos.find_one({'_id': ObjectId(id)}).get('marcada', None)
 
     if tarea is None:
             return tarea_not_found()
 
-    mongo.db.todos.update_one(
+    mongo.todos.update_one(
         {'_id': ObjectId(id), 'user_id': current_user},  # Asegurar que el usuario sea el propietario
         {'$set': {
             'tarea': tarea,
@@ -101,7 +97,7 @@ def update_user(current_user, id):
 @todos.route('/todos/<id>', methods=['DELETE'])
 @token_required
 def delete_user(current_user, id):
-    todo = mongo.db.todos.delete_one({'_id': ObjectId(id), 'user_id': current_user})  # Asegurar que el usuario sea el propietario
+    todo = mongo.todos.delete_one({'_id': ObjectId(id), 'user_id': current_user})  # Asegurar que el usuario sea el propietario
     return "Tarea eliminada", 200
 
 # Error handlers
