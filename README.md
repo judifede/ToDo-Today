@@ -28,8 +28,13 @@ mongod --dbpath C:\data\db
 
 3. Arrancar el servidor en el puerto 5000 desde la carpeta /backend:
 
+Local:
 ```
 python src/app.py
-waitress-serve --listen=0.0.0.0:$PORT app:app
+```
+
+Hosting Remoto (Render):
+```
+gunicorn --bind 0.0.0.0:$PORT wsgi:app
 ```
 
