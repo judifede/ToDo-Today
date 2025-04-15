@@ -12,4 +12,4 @@ app.register_blueprint(todos, url_prefix='/api')
 if __name__ == '__main__':
     # Ejecuta la aplicación Flask.
     # El host se establece en '0.0.0.0' para que sea accesible externamente.
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
