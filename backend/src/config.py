@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)  # Esto habilita CORS para todas las rutas
+    CORS(app)  # Habilita CORS para todas las rutas
     # CORS(app, resources={r"/api/*": {"origins": "http://example.com"}})
     load_dotenv()
 
