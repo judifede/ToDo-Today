@@ -17,8 +17,8 @@ mongosh
 python src/app.py
     Python ejecuta en el puerto 5000
 
+gunicorn --bind 0.0.0.0:5000 app:app
 
-from werkzeug.security import generate_password_hash, check_password_hash
 -------------------------------------------------
 mongosh
 
