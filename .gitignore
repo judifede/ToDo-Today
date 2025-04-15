@@ -2,3 +2,4 @@
 /bundle final/todotoday.js
 /backend/src/__pycache__
 /backend/src/.env
+/frontend/.env
