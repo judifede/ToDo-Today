@@ -1,10 +1,9 @@
-from flask import Blueprint, request, jsonify, Response
+from flask import Blueprint, request, jsonify, Response, current_app
 from bson import json_util, ObjectId
-from src.config import create_app
+from src.config import get_db
 import jwt
 from functools import wraps
 
-app, mongo = create_app()
 todos = Blueprint('todos', __name__)
 
 def token_required(f):
@@ -14,7 +13,7 @@ def token_required(f):
         if not token:
             return jsonify({'message': 'No hay Token'}), 403
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+            data = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=["HS256"])
             current_user = data['user_id']
         except:
             return jsonify({'message': 'Token no es válido'}), 403
@@ -28,6 +27,9 @@ def create_todo(current_user):
 
     if tarea is None:
         return tarea_not_found()
+    
+    db = get_db()  # Accede a la base de datos previamente inicializada
+    mongo = db
     
     # Verificar el número de registros en la tabla todos para el usuario actual
     user_todos_count = mongo.todos.count_documents({'user_id': current_user})
@@ -53,6 +55,8 @@ def create_todo(current_user):
 @todos.route('/todos', methods=['GET'])
 @token_required
 def get_todos(current_user):
+    db = get_db()  # Accede a la base de datos previamente inicializada
+    mongo = db
     todos = list(mongo.todos.find({'user_id': current_user}))
     
     # Listar las tareas por consola
@@ -71,6 +75,8 @@ def get_todos(current_user):
 @todos.route('/todos/<id>', methods=['PUT'])
 @token_required
 def update_user(current_user, id):
+    db = get_db()  # Accede a la base de datos previamente inicializada
+    mongo = db
 
     tarea = request.json.get('tarea', None)
     marcada = request.json.get('marcada', None)
@@ -95,6 +101,8 @@ def update_user(current_user, id):
 @todos.route('/todos/<id>', methods=['DELETE'])
 @token_required
 def delete_user(current_user, id):
+    db = get_db()  # Accede a la base de datos previamente inicializada
+    mongo = db
     todo = mongo.todos.delete_one({'_id': ObjectId(id), 'user_id': current_user})
     return "Tarea eliminada", 200
 
