@@ -1,5 +1,4 @@
-from flask import Flask, g
-from flask_pymongo import PyMongo
+from flask import Flask, g, current_app
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
@@ -11,14 +10,10 @@ def create_app():
     load_dotenv()
 
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
-    # Usamos before_first_request en lugar de before_serving para versiones anteriores de Flask
-    @app.before_first_request
-    def init_db():
-        mongo_uri = os.getenv('MONGO_URI')
-        g.mongo_client = MongoClient(mongo_uri)
-        g.mongo_db = g.mongo_client['todotoday']
-
+    app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+    
+    # Eliminamos la inicialización temprana de la base de datos
+    
     @app.teardown_appcontext
     def close_db(exception):
         client = g.pop('mongo_client', None)
@@ -28,8 +23,12 @@ def create_app():
     return app
 
 def get_db():
-    from flask import g
-    return g.get('mongo_db')
+    if 'mongo_db' not in g:
+         mongo_uri = current_app.config.get('MONGO_URI')
+         client = MongoClient(mongo_uri)
+         g.mongo_client = client
+         g.mongo_db = client['todotoday']
+    return g.mongo_db
 
 
 
