@@ -16,7 +16,6 @@ def create_app():
     @app.before_first_request
     def init_db():
         mongo_uri = os.getenv('MONGO_URI')
-        # Asegúrate de que mongo_uri incluya los parámetros para TLS/SSL si son necesarios
         g.mongo_client = MongoClient(mongo_uri)
         g.mongo_db = g.mongo_client['todotoday']
 

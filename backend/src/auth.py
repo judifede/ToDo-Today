@@ -1,10 +1,9 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app, g
 import jwt
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from src.config import create_app
+from src.config import get_db  # Usa esta función para obtener la conexión a MongoDB
 
-app, mongo = create_app()
 auth = Blueprint('auth', __name__)
 
 def generate_token(user_id):
@@ -12,7 +11,7 @@ def generate_token(user_id):
         'user_id': str(user_id),
         'exp': datetime.datetime.utcnow() + datetime.timedelta(days=4*30)  # Token expira en 4 meses
     }
-    token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
+    token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
     return token
 
 @auth.route('/register', methods=['POST'])
@@ -20,6 +19,9 @@ def register():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+
+    db = get_db()  # Accede a la base de datos previamente inicializada
+    mongo = db
 
     # Verificar el número de registros en la tabla users.
     user_count = mongo.users.count_documents({})
@@ -49,6 +51,9 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+
+    db = get_db()  # Accede a la base de datos previamente inicializada
+    mongo = db
 
     user = mongo.users.find_one({'username': username})
 
