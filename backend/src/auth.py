@@ -39,6 +39,9 @@ def register():
     result = mongo.users.insert_one({'username': username, 'password': hashed_password})
     token = generate_token(str(result.inserted_id))
 
+    print(f"Usuario registrado: {username}")
+    print(f"Token generado: {token}")
+
     return jsonify({"token": token, "message": "Usuario registrado con éxito"}), 201
 
 @auth.route('/login', methods=['POST'])
@@ -49,11 +52,11 @@ def login():
 
     user = mongo.users.find_one({'username': username})
 
-    print(user)
+    print(f"Usuario: {user}")
 
     if not user or not check_password_hash(user['password'], password):
         return jsonify({"error": "Fallo en usuario o contraseña"}), 401
     
     token = generate_token(str(user['_id']))
-    print(token)
+    print(f"Token: {token}")
     return jsonify({"token": token, "message": "Sesión iniciada con éxito"}), 200

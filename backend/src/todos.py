@@ -35,7 +35,6 @@ def create_todo(current_user):
     if user_todos_count >= 20:
         return jsonify({'error': 'Se ha alcanzado el límite de tareas para este usuario.'}), 403
 
-
     if tarea:
         id = mongo.todos.insert_one({
             'tarea': tarea,
@@ -48,6 +47,7 @@ def create_todo(current_user):
             'tarea': tarea,
             'marcada': False
         }
+        print(f"Tarea creada: {response}")
         return response, 200
 
 @todos.route('/todos', methods=['GET'])
@@ -60,7 +60,7 @@ def get_todos(current_user):
     for todo in todos:
         tareas.append(todo.get('tarea', 'Sin tarea'))
     
-    print(f"List of todos: {tareas}")
+    print(f"Lista de tareas: {tareas}")
 
     json_todos = json_util.dumps(todos) # Convertimos los objetos Mongo a String
     response = Response(json_todos, mimetype='application/json')
@@ -95,7 +95,7 @@ def update_user(current_user, id):
 @todos.route('/todos/<id>', methods=['DELETE'])
 @token_required
 def delete_user(current_user, id):
-    todo = mongo.todos.delete_one({'_id': ObjectId(id), 'user_id': current_user})  # Asegurar que el usuario sea el propietario
+    todo = mongo.todos.delete_one({'_id': ObjectId(id), 'user_id': current_user})
     return "Tarea eliminada", 200
 
 # Error handlers
