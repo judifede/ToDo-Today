@@ -1,6 +1,9 @@
 export function DeleteIcon(props) {
   return (
-    <svg {...props} className="size-6" viewBox="0 0 24 24">
+    <svg 
+    className="size-6"
+    {...props} 
+     viewBox="0 0 24 24">
       <g strokeWidth="0"></g>
       <g strokeLinecap="round" strokeLinejoin="round"></g>
       <g>
