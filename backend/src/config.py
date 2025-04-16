@@ -12,11 +12,11 @@ def create_app():
 
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-    # Usamos before_serving para inicializar el cliente por cada worker
-    @app.before_serving
+    # Usamos before_first_request en lugar de before_serving para versiones anteriores de Flask
+    @app.before_first_request
     def init_db():
         mongo_uri = os.getenv('MONGO_URI')
-        # Nota: asegúrate de que mongo_uri incluya los parámetros para TLS/SSL
+        # Asegúrate de que mongo_uri incluya los parámetros para TLS/SSL si son necesarios
         g.mongo_client = MongoClient(mongo_uri)
         g.mongo_db = g.mongo_client['todotoday']
 
@@ -29,10 +29,8 @@ def create_app():
     return app
 
 def get_db():
-    # Función de conveniencia para acceder a la DB en cualquier parte del código
     from flask import g
     return g.get('mongo_db')
-
 
 
 
