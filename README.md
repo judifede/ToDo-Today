@@ -5,18 +5,30 @@ Extensión de Chrome para gestionar una lista de tareas
 ## Cargar extensión
 
 1. Clonar este repositorio.
-2. Cargar el directorio del repositorio con [Cargar descomprimida](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+2. Cargar el directorio "bundle final" con [Cargar descomprimida](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Abre la extensión ToDo Today.
 
 ## Backend
 
+La base de datos está en:
+- Mongo Atlas [https://www.mongodb.com/atlas/database](https://www.mongodb.com/atlas/database)
+
+Y la API está en:
+- Render [https://render.com/](https://render.com/).
+
+Por tanto, si se quiere configurar en local deberemos llevar a cabo una serie de pasos y configuraciones con las siguientes tecnologías:
+- MongoDB
+- Python
+- NPM (Front sin usarla como extensión)
+
 1. Instalar dependencias: 
 ```
-pip install blinker==1.9.0 click==8.1.8 colorama==0.4.6 dnspython==2.7.0 Flask==3.1.0 flask-cors==5.0.1 Flask-PyMongo==3.0.1 gunicorn==23.0.0 itsdangerous==2.2.0 Jinja2==3.1.6 MarkupSafe==3.0.2 packaging==24.2 pip==24.3.1 PyJWT==2.10.1 pymongo==4.11.3 python-dotenv==1.1.0 Werkzeug==3.1.3
-
+backend/
+pip install -r requirements.txt
 ```
 Para revisar que todo ha ido bien usar:
 ```
+backend/
 pip list
 ```
 
@@ -30,13 +42,13 @@ mongod --dbpath C:\data\db
 
 Local:
 ```
+backend/
 python src/app.py
 ```
 
-Hosting Remoto (Render):
+Con docker:
 ```
-gunicorn --bind 0.0.0.0:$PORT wsgi:app
-```
-
+backend/
 docker build -t todotoday-backend .
 docker run -p 5000:5000 todotoday-backend
+```
