@@ -75,7 +75,7 @@ function Todo({setLoading}) {
         setErrorMessage(returnedData.error)
         return
       }
-
+      setAddTodoText('')
       setRefresh((value) => value + 1)
       console.log(returnedData)
     } catch (err) {
