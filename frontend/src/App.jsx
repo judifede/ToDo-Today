@@ -58,54 +58,59 @@ function App() {
 
   return (
     <>
-      <header className="w-full px-2 flex items-center justify-end gap-1">
-        <Dropdown
-          label={<SettingsIcon></SettingsIcon>}
-          dismissOnClick={false}
-          arrowIcon={false}
-          inline={true}
+      <header className="w-full px-2 flex items-center justify-end gap-4">
+        <span
+          onClick={toggleDarkMode}
+          className="cursor-pointer justify-center"
         >
-          <Tooltip content="Disminuir Fuente" placement="right">
-            <Dropdown.Item
-              onClick={decreaseFont}
-              className="justify-center px-8"
-            >
-              <MinusIcon className="w-5 h-5" />
-            </Dropdown.Item>
+          <Tooltip content="Cambiar Modo" placement="bottom">
+            <MoonIcon></MoonIcon>
+            <SunIcon></SunIcon>
           </Tooltip>
-          <Tooltip content="Aumentar Fuente" placement="right">
-            <Dropdown.Item
-              onClick={increaseFont}
-              className="justify-center px-8"
-            >
-              <PlusIcon className="w-5 h-5" />
-            </Dropdown.Item>
-          </Tooltip>
-          <Tooltip content="Fuente en Negrita" placement="right">
-            <Dropdown.Item onClick={toggleBold} className="justify-center px-8">
-              <BoldIcon className="w-5 h-5" />
-            </Dropdown.Item>
-          </Tooltip>
-          <Tooltip content="Cambiar Modo" placement="right">
-            <Dropdown.Item
-              onClick={toggleDarkMode}
-              className="justify-center px-8"
-            >
-              <MoonIcon></MoonIcon>
-              <SunIcon></SunIcon>
-            </Dropdown.Item>
-          </Tooltip>
-          {localStorage.getItem('token') && (
-            <Tooltip content="Cerrar sesión" placement="right">
-              <Dropdown.Item onClick={logout} className="justify-center px-8">
-                <LogoutIcon
-                  title="Cerrar sesión"
-                  className="text-red-400 cursor-pointer w-5 h-5"
-                />
+        </span>
+        {localStorage.getItem('token') && (
+          <span onClick={logout} className="cursor-pointer justify-center">
+            <Tooltip content="Cerrar sesión" placement="bottom">
+              <LogoutIcon
+                title="Cerrar sesión"
+                className="text-black dark:text-white cursor-pointer w-5 h-5"
+              />
+            </Tooltip>
+          </span>
+        )}
+        <Tooltip content="Accesibilidad" placement="right">
+          <Dropdown
+            label={<SettingsIcon></SettingsIcon>}
+            dismissOnClick={false}
+            arrowIcon={false}
+            inline={true}
+          >
+            <Tooltip content="Disminuir Fuente" placement="right">
+              <Dropdown.Item
+                onClick={decreaseFont}
+                className="justify-center px-8"
+              >
+                <MinusIcon className="w-5 h-5" />
               </Dropdown.Item>
             </Tooltip>
-          )}
-        </Dropdown>
+            <Tooltip content="Aumentar Fuente" placement="right">
+              <Dropdown.Item
+                onClick={increaseFont}
+                className="justify-center px-8"
+              >
+                <PlusIcon className="w-5 h-5" />
+              </Dropdown.Item>
+            </Tooltip>
+            <Tooltip content="Fuente en Negrita" placement="right">
+              <Dropdown.Item
+                onClick={toggleBold}
+                className="justify-center px-8"
+              >
+                <BoldIcon className="w-5 h-5" />
+              </Dropdown.Item>
+            </Tooltip>
+          </Dropdown>
+        </Tooltip>
         {/* <Tooltip content="Disminuir Fuente" placement="bottom">
           <button className="px-1" onClick={decreaseFont}>
             <MinusIcon></MinusIcon>

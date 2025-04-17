@@ -16,5 +16,5 @@
   "side_panel": {
     "default_path": "app.html"
   },
-  "permissions": ["sidePanel", "activeTab"]
+  "permissions": ["sidePanel"]
 }

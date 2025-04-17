@@ -144,7 +144,7 @@ function Todo({ setLoading }) {
             value={addTodoText}
             onChange={(e) => setAddTodoText(e.target.value)}
             onKeyDown={debouncedHandleKeyDownEnter}
-            className="relative w-40 h-10 px-5 py-2 text-black bg-gray-200 border-0 rounded"
+            className="relative w-40 h-10 px-5 py-2 pr-10 text-black bg-gray-200 border-0 rounded"
             placeholder="Añadir tarea"
             autoFocus
           />
@@ -153,7 +153,7 @@ function Todo({ setLoading }) {
             onClick={() => setAddTodoText('')}
           ></CloseIcon>
           <button
-            className="flex items-center h-10 gap-2 px-3 py-4  duration-300  rounded group 
+            className="flex items-center h-10 gap-2 px-3 py-4 duration-300 rounded group 
             text-white bg-blue-700 hover:bg-blue-800  dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
             onClick={() => {
               debouncedHandleCreate()
@@ -173,7 +173,7 @@ function Todo({ setLoading }) {
         </div>
       )}
 
-      <section className="flex flex-col justify-start gap-5 w-80 min-h-20">
+      <section className="flex flex-col items-center justify-start gap-5 w-80 min-h-20 rounded-lg outline outline-1 outline-blue-400/40 dark:outline-orange-400/40">
         {todoData === undefined || todoData.length === 0 ? (
           <p className="text-center opacity-90">No hay tareas</p>
         ) : (
@@ -186,7 +186,7 @@ function Todo({ setLoading }) {
             before:bg-blue-300/70
           dark:before:bg-orange-300/70 before:-translate-y-[10px] "
             >
-              <div className="flex justify-between w-full gap-5">
+              <div className="flex items-center justify-between w-full gap-5">
                 <span className="w-full flex items-center justify-start gap-5">
                   <input
                     type="checkbox"
