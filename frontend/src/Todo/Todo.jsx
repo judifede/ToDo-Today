@@ -8,10 +8,12 @@ import {
 } from '../Services/todos.service'
 
 import { useState } from 'react'
-import { DeleteIcon, CloseIcon, LogoutIcon } from '../assets/icons'
+import { DeleteIcon, CloseIcon } from '../assets/icons'
 import useDebounce from '../hooks/hooks'
+import TodoTextarea from './TodoTextarea'
+import { Tooltip } from 'flowbite-react'
 
-function Todo({setLoading}) {
+function Todo({ setLoading }) {
   const [todoData, setTodoData] = useState([])
   const [addTodoText, setAddTodoText] = useState('')
   const [todoUpdatingText, setTodoUpdatingText] = useState('')
@@ -22,9 +24,9 @@ function Todo({setLoading}) {
   useEffect(() => {
     const handleData = async () => {
       setLoading(true)
-      
+
       const todayData = await getTodos()
-      
+
       setLoading(false)
 
       if (todayData.error) {
@@ -51,11 +53,6 @@ function Todo({setLoading}) {
 
     handleData()
   }, [refresh, setLoading])
-
-  const logout = () => {
-    localStorage.removeItem('token')
-    window.location.reload()
-  }
 
   const handleKeyDownEnter = (event) => {
     if (event.key === 'Enter') {
@@ -138,12 +135,6 @@ function Todo({setLoading}) {
 
   return (
     <>
-      <LogoutIcon
-        className="self-end text-red-400 cursor-pointer size-6"
-        onClick={() => {
-          logout()
-        }}
-      ></LogoutIcon>
       <header className="relative flex flex-col items-center justify-center gap-5 w-80">
         <div className="relative flex items-center justify-between gap-3">
           <input
@@ -162,7 +153,8 @@ function Todo({setLoading}) {
             onClick={() => setAddTodoText('')}
           ></CloseIcon>
           <button
-            className="flex items-center h-10 gap-2 px-3 py-4 text-black duration-300 bg-orange-400 rounded group hover:bg-orange-600"
+            className="flex items-center h-10 gap-2 px-3 py-4  duration-300  rounded group 
+            text-white bg-blue-700 hover:bg-blue-800  dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
             onClick={() => {
               debouncedHandleCreate()
             }}
@@ -188,13 +180,14 @@ function Todo({setLoading}) {
           todoData.map(({ _id: { $oid: id }, tarea }) => (
             <article
               key={id}
-              className="relative w-[95%] h-5 first:before:content-none
+              className="relative w-[95%] h-10 first:before:content-none
             before:content-[''] before:block
             before:w-full before:h-[2px]
-          before:bg-yellow-100/70 before:-translate-y-[10px] "
+            before:bg-blue-300/70
+          dark:before:bg-orange-300/70 before:-translate-y-[10px] "
             >
               <div className="flex justify-between w-full gap-5">
-                <span className="flex items-center justify-start gap-5">
+                <span className="w-full flex items-center justify-start gap-5">
                   <input
                     type="checkbox"
                     className="w-4 h-4 text-orange-400 bg-gray-100 border-gray-300 rounded focus:ring-orange-400 focus:ring-1"
@@ -205,24 +198,23 @@ function Todo({setLoading}) {
                     name={id}
                     id={id}
                   />
-                  <textarea
-                    placeholder="Title"
-                    defaultValue={tarea}
-                    disabled={checkboxStates[id]}
-                    className={`${
-                      checkboxStates[id] ? 'line-through decoration-2 ' : ''
-                    } w-full h-5 px-1 py-0 overflow-hidden text-sm font-medium leading-5 bg-transparent border-0 rounded-none resize-none  focus:ring-orange-400 focus:shadow-none hover:bg-transparent placeholder-text-secondary`}
-                    onChange={(event) =>
-                      debouncedHandleUpdateTextarea({ event, chosenID: id })
+                  <TodoTextarea
+                    tarea={tarea}
+                    checkboxStates={checkboxStates}
+                    id={id}
+                    debouncedHandleUpdateTextarea={
+                      debouncedHandleUpdateTextarea
                     }
-                  ></textarea>
+                  ></TodoTextarea>
                 </span>
-                <DeleteIcon
-                  className="w-4 cursor-pointer fill-red-400/80"
-                  onClick={() => {
-                    handleDelete({ chosenID: id })
-                  }}
-                ></DeleteIcon>
+                <Tooltip content="Borrar tarea" placement="bottom">
+                  <DeleteIcon
+                    className="w-4 cursor-pointer fill-red-400/80"
+                    onClick={() => {
+                      handleDelete({ chosenID: id })
+                    }}
+                  ></DeleteIcon>
+                </Tooltip>
               </div>
             </article>
           ))

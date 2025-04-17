@@ -9,11 +9,17 @@
 }
 
 body {
-  margin: 0;
+  margin: 0 auto;
   padding: 30px 15px;
+  min-width: 350px;
+  max-width: 360px;
+  background-color: #FEFEFE;
+  color: #171717;
+}
+
+html.dark body{
   background-color: #171717;
   color: #cfcfcf;
-  min-width: 350px;
 }
 
 #root {
