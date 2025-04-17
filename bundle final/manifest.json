@@ -10,10 +10,11 @@
     "128": "images/logo.png"
   },
   "action": {
-    "default_title": "ToDo Today"
+    "default_title": "ToDo Today",
+    "default_popup": "app.html"
   },
   "side_panel": {
     "default_path": "app.html"
   },
-  "permissions": ["sidePanel"]
+  "permissions": ["sidePanel", "activeTab"]
 }

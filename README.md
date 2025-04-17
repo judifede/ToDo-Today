@@ -2,10 +2,11 @@
 
 Extensión de Chrome para gestionar una lista de tareas
 
-## Cargar extensión
+## Instalación de la extensión
 
-1. Clonar este repositorio.
-2. Cargar el directorio "bundle final" con [Cargar descomprimida](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+1. Descargar / Clonar el repositorio completo o Descargar el Archivo ZIP Directamente: Haz clic [aquí](https://github.com/judifede/todotoday/raw/main/bundle%20final.zip) para descargar el archivo ZIP de la extensión.
+2. Extrae el archivo ZIP descargado.
+2. Carga el directorio "bundle final" con [Cargar descomprimida](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked) con el modo Desarrollador activo. Todos los pasos están indicados en el enlace.
 3. Abre la extensión ToDo Today.
 
 ## Backend
