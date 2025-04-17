@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+
 import { EyeIcon, EyeSlashIcon } from '../assets/icons'
 import { login, register } from '../Services/auth.service'
 
-function Login() {
+function Login({ setLoading }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -10,8 +12,11 @@ function Login() {
 
   const onLogin = async () => {
     try {
+      setLoading(true)
+      
       const login_result = await login({ username, password })
-
+      
+      setLoading(false)
       onLocalStorage(login_result)
     } catch (err) {
       console.error(err)
@@ -20,11 +25,14 @@ function Login() {
 
   const onRegister = async () => {
     try {
+      setLoading(true)
+
       const res = await register({
         username,
         password,
       })
 
+      setLoading(false)
       onLocalStorage(res)
     } catch (err) {
       console.error(err)
@@ -126,6 +134,10 @@ function Login() {
       </button>
     </form>
   )
+}
+
+Login.propTypes = {
+  setLoading: PropTypes.func,
 }
 
 export default Login

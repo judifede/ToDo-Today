@@ -93,3 +93,11 @@ export function LogoutIcon(props) {
     </svg>
   )
 }
+
+export function Spinner() {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-200 bg-opacity-20">
+      <div className="absolute top-44 w-12 h-12 border-4 border-t-4 border-gray-200 rounded-full border-t-orange-500 animate-spin"></div>
+    </div>
+  )
+}

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import {
   getTodos,
   createTodo,
@@ -10,7 +11,7 @@ import { useState } from 'react'
 import { DeleteIcon, CloseIcon, LogoutIcon } from '../assets/icons'
 import useDebounce from '../hooks/hooks'
 
-function Todo() {
+function Todo({setLoading}) {
   const [todoData, setTodoData] = useState([])
   const [addTodoText, setAddTodoText] = useState('')
   const [todoUpdatingText, setTodoUpdatingText] = useState('')
@@ -20,7 +21,11 @@ function Todo() {
 
   useEffect(() => {
     const handleData = async () => {
+      setLoading(true)
+      
       const todayData = await getTodos()
+      
+      setLoading(false)
 
       if (todayData.error) {
         setErrorMessage(todayData.error)
@@ -45,7 +50,7 @@ function Todo() {
     }
 
     handleData()
-  }, [refresh])
+  }, [refresh, setLoading])
 
   const logout = () => {
     localStorage.removeItem('token')
@@ -63,8 +68,9 @@ function Todo() {
       const bodyObj = {
         tarea: addTodoText,
       }
+      setLoading(true)
       const returnedData = await createTodo({ bodyObj })
-
+      setLoading(false)
       if (returnedData.error) {
         setErrorMessage(returnedData.error)
         return
@@ -79,8 +85,9 @@ function Todo() {
 
   const handleDelete = async ({ chosenID }) => {
     try {
+      setLoading(true)
       const returnedData = await deleteTodo({ chosenID })
-
+      setLoading(false)
       setRefresh((value) => value + 1)
       console.log(returnedData)
     } catch (err) {
@@ -90,14 +97,15 @@ function Todo() {
 
   const handleUpdateTextarea = async ({ event, chosenID }) => {
     const { value } = event.target
-    setTodoUpdatingText(value)
+    setTodoUpdatingText(value.trim())
 
     try {
       const bodyObj = {
         tarea: value,
       }
-
+      setLoading(true)
       await updateTodo({ chosenID, bodyObj })
+      setLoading(false)
     } catch (err) {
       console.error(err)
     }
@@ -112,12 +120,12 @@ function Todo() {
     }))
     try {
       const bodyObj = {
-        tarea: todoUpdatingText || tarea,
+        tarea: todoUpdatingText.trim() || tarea.trim(),
         marcada: checked,
       }
-
+      setLoading(true)
       await updateTodo({ chosenID, bodyObj })
-
+      setLoading(false)
       setRefresh((value) => value + 1)
     } catch (err) {
       console.error(err)
@@ -126,6 +134,7 @@ function Todo() {
 
   const debouncedHandleKeyDownEnter = useDebounce(handleKeyDownEnter, 800)
   const debouncedHandleCreate = useDebounce(handleCreate, 800)
+  const debouncedHandleUpdateTextarea = useDebounce(handleUpdateTextarea, 800)
 
   return (
     <>
@@ -204,7 +213,7 @@ function Todo() {
                       checkboxStates[id] ? 'line-through decoration-2 ' : ''
                     } w-full h-5 px-1 py-0 overflow-hidden text-sm font-medium leading-5 bg-transparent border-0 rounded-none resize-none  focus:ring-orange-400 focus:shadow-none hover:bg-transparent placeholder-text-secondary`}
                     onChange={(event) =>
-                      handleUpdateTextarea({ event, chosenID: id })
+                      debouncedHandleUpdateTextarea({ event, chosenID: id })
                     }
                   ></textarea>
                 </span>
@@ -221,6 +230,10 @@ function Todo() {
       </section>
     </>
   )
+}
+
+Todo.propTypes = {
+  setLoading: PropTypes.func,
 }
 
 export default Todo

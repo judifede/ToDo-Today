@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import Login from './Login/Login'
 import Todo from './Todo/Todo'
+import { Spinner } from './assets/icons'
 
 function App() {
   const [imageError, setImageError] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   return (
     <>
@@ -20,10 +22,12 @@ function App() {
       <h2 className="text-lg">Organiza tus tareas diarias</h2>
       <main className="relative flex flex-col items-center justify-between gap-5">
         {localStorage.getItem('token') === null ? (
-          <Login></Login>
+          <Login setLoading={setLoading} ></Login>
         ) : (
-          <Todo></Todo>
+          <Todo setLoading={setLoading} ></Todo>
         )}
+
+        {loading && <Spinner />}
       </main>
     </>
   )
