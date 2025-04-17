@@ -5,7 +5,7 @@ import fs from 'fs'
 
 // eslint-disable-next-line no-undef
 const projectRoot = __dirname
-const finalDir = path.resolve(projectRoot, '../bundle final')
+const finalDir = path.resolve(projectRoot, '../bundle-final')
 
 export default defineConfig({
   plugins: [
